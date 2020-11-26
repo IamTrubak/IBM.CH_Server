@@ -24,8 +24,7 @@
  Source code may have been modified by Jakub Janšta https://github.com/IamTrubak
  
  Original source can be found on https://github.com/nsiatras/extasys
- 
-*/
+ */
 package networking.Extasys.Network.TCP.Server.Listener.Exceptions;
 
 import networking.Extasys.Network.TCP.Server.Listener.TCPClientConnection;

@@ -8,7 +8,8 @@ public class TCPServer extends networking.Extasys.Network.TCP.Server.ExtasysTCPS
 		 * interface pro TCP server
 		 * override metody
 		 * správa pøipojení
-		 * */
+		 * 
+		 */
 	}
 	
 	
