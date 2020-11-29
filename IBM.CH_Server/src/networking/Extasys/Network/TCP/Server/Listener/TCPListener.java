@@ -119,6 +119,25 @@ public class TCPListener
     {
         Initialize(name, ipAddress, port, maxConnections, readBufferSize, connectionTimeOut, backLog, true, splitter);
     }
+    
+    /**
+     * Constructs a new TCP listener.
+     *
+     * @param ipAddress is the listener's IP Address.
+     * @param port is the listener's port.
+     * @param maxConnections is the listener's maximum connections limit.
+     * @param readBufferSize is the listener's each connection read buffer size
+     * in bytes.
+     * @param connectionTimeOut is the listener's connections time-out time in
+     * milliseconds.
+     * @param backLog is the number of outstanding connection requests this
+     * listener can have.
+     */
+    public TCPListener(InetAddress ipAddress, int port, int maxConnections, int readBufferSize, int connectionTimeOut, int backLog)
+    {
+        Initialize(null, ipAddress, port, maxConnections, readBufferSize, connectionTimeOut, backLog, false, null);
+    }
+    
 
     @SuppressWarnings("rawtypes")
 	private void Initialize(String name, InetAddress ipAddress, int port, int maxConnections, int readBufferSize, int connectionTimeOut, int backLog, boolean useMessageCollector, String splitter)
