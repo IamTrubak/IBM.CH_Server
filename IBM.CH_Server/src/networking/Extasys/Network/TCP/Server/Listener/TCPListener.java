@@ -27,6 +27,7 @@
  */
 package networking.Extasys.Network.TCP.Server.Listener;
 
+import networking.TCPServer;
 import networking.Extasys.Network.TCP.Server.ExtasysTCPServer;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -39,6 +40,7 @@ public class TCPListener
     // Extasys tcp server reference.
 
     private ExtasysTCPServer fMyExtasysTCPServer;
+    private TCPServer fMyTCPServer;
     // Socket.
     private ServerSocket fTcpListener;
     private Thread fTCPListenerThread;
@@ -429,6 +431,12 @@ public class TCPListener
     public void setMyExtasysTCPServer(ExtasysTCPServer server)
     {
         fMyExtasysTCPServer = server;
+        fMyTCPServer = null;
+    }
+    
+    public void setMyTCPServer(TCPServer server) {
+    	fMyTCPServer = server;
+    	fMyExtasysTCPServer = null;
     }
 
     /**
@@ -440,6 +448,25 @@ public class TCPListener
     {
         return fMyExtasysTCPServer;
     }
+    
+    public TCPServer getMyTCPServer(){
+        return fMyTCPServer;
+    }
+    
+    public boolean hasExtasysTCPServer() {
+    	if(this.fMyExtasysTCPServer == null) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public boolean hasTCPServer() {
+    	if(this.fMyTCPServer == null) {
+    		return false;
+    	}
+    	return true;
+    }
+    
 
     /**
      * Returns the active state of this TCPListener.

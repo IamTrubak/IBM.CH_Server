@@ -64,7 +64,11 @@ public class TCPClientConnectionMessageCollector
             fIndexOfETX = fIncomingDataBuffer.IndexOf(fETXStr);
             while (fIndexOfETX > -1)
             {
-                fMyClient.getMyTCPListener().getMyExtasysTCPServer().OnDataReceive(fMyClient, new DataFrame(fIncomingDataBuffer.SubList(0, fIndexOfETX)));
+            	if(fMyClient.getMyTCPListener().hasTCPServer()) {
+            		fMyClient.getMyTCPListener().getMyTCPServer().OnDataReceive(fMyClient, new DataFrame(fIncomingDataBuffer.SubList(0, fIndexOfETX)));
+            	}else {
+            		fMyClient.getMyTCPListener().getMyExtasysTCPServer().OnDataReceive(fMyClient, new DataFrame(fIncomingDataBuffer.SubList(0, fIndexOfETX)));
+            	}
                 fIncomingDataBuffer.Delete(0, fIndexOfETX + fETXLength);
                 fIndexOfETX = fIncomingDataBuffer.IndexOf(fETXStr);
             }

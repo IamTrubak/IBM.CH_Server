@@ -64,7 +64,11 @@ public final class IncomingTCPClientConnectionPacket implements Runnable
     {
         try
         {
-            fClient.fMyExtasysServer.fMyThreadPool.execute(this);
+        	if (fClient.hasServer()) {
+        		fClient.fMyServer.serverThreadPool.execute(this);
+        	}else {
+        		fClient.fMyExtasysServer.fMyThreadPool.execute(this);
+        	}
         }
         catch (RejectedExecutionException ex)
         {
@@ -92,14 +96,22 @@ public final class IncomingTCPClientConnectionPacket implements Runnable
         {
             if (fPreviousPacket == null)
             {
-                fClient.fMyExtasysServer.OnDataReceive(fClient, fData);
+            	if(fClient.hasServer()) {
+            		fClient.fMyServer.OnDataReceive(fClient, fData);
+            	}else {
+            		fClient.fMyExtasysServer.OnDataReceive(fClient, fData);
+            	}
             }
             else
             {
                 fPreviousPacket.fDone.WaitOne();
                 if (!fCancel && !fPreviousPacket.fCancel)
                 {
-                    fClient.fMyExtasysServer.OnDataReceive(fClient, fData);
+                	if(fClient.hasServer()) {
+                		fClient.fMyServer.OnDataReceive(fClient, fData);
+                	}else {
+                		fClient.fMyExtasysServer.OnDataReceive(fClient, fData);
+                	}
                 }
                 else
                 {

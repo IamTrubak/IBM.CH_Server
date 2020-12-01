@@ -27,6 +27,7 @@
  */
 package networking.Extasys.Network.TCP.Server.Listener;
 
+import networking.TCPServer;
 import networking.Extasys.DataFrame;
 import networking.Extasys.Network.TCP.Server.ExtasysTCPServer;
 import networking.Extasys.Network.TCP.Server.Listener.Exceptions.ClientIsDisconnectedException;
@@ -53,6 +54,7 @@ public final class TCPClientConnection
     protected boolean fIsConnected = false;
     public final TCPListener fMyListener;
     public final ExtasysTCPServer fMyExtasysServer;
+    public final TCPServer fMyServer;
     private final String fIPAddress;
     private String fName = "";
     private Object fTag = null;
@@ -78,7 +80,15 @@ public final class TCPClientConnection
         fConnection = socket;
 
         fMyListener = myTCPListener;
-        fMyExtasysServer = myTCPListener.getMyExtasysTCPServer();
+        
+        if(myTCPListener.hasTCPServer()) {
+        	 fMyServer = myTCPListener.getMyTCPServer();
+        	 fMyExtasysServer = null;
+        }else {
+        	fMyExtasysServer = myTCPListener.getMyExtasysTCPServer();
+        	fMyServer = null;
+        }
+        
 
         fIPAddress = (socket.getInetAddress() != null) ? socket.getInetAddress().toString() + ":" + String.valueOf(socket.getPort()) : "";
 
@@ -124,8 +134,13 @@ public final class TCPClientConnection
             DisconnectMe();
             return;
         }
+        
+        if(fMyListener.hasTCPServer()) {
+        	fMyListener.getMyTCPServer().OnClientConnect(this);
+    	}else {
+    		fMyListener.getMyExtasysTCPServer().OnClientConnect(this);
+    	}
 
-        fMyListener.getMyExtasysTCPServer().OnClientConnect(this);
 
         fClientDataReaderThread = new Thread(new ClientDataReader(this));
         fClientDataReaderThread.start();
@@ -324,7 +339,12 @@ public final class TCPClientConnection
             fMyMessageCollector = null;
 
             fMyListener.RemoveClient(fIPAddress);
-            fMyListener.getMyExtasysTCPServer().OnClientDisconnect(this);
+            
+            if(fMyListener.hasTCPServer()) {
+            	fMyListener.getMyTCPServer().OnClientDisconnect(this);
+        	}else {
+        		fMyListener.getMyExtasysTCPServer().OnClientDisconnect(this);
+        	}
         }
     }
 
@@ -346,6 +366,24 @@ public final class TCPClientConnection
     public ExtasysTCPServer getMyExtasysTCPServer()
     {
         return fMyExtasysServer;
+    }
+    
+    public TCPServer getMyServer(){
+        return fMyServer;
+    }
+    
+    public boolean hasExtasysServer() {
+    	if(this.fMyExtasysServer == null) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public boolean hasServer() {
+    	if(this.fMyServer == null) {
+    		return false;
+    	}
+    	return true;
     }
 
     /**
