@@ -56,4 +56,8 @@ public final class DataFrame
     {
         return fLength;
     }
+    
+    public String toString() {
+    	return new String(fBytes);
+    }
 }
