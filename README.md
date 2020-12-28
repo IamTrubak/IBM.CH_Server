@@ -4,7 +4,7 @@ Zprávy se posílají v JSON formátu převedený na string v utf-8 bytekódu.
 message example: {"headers": ["type", responses], "data": b'message data'}
 
 Funkce a proměnné začínající _ jsou private (např.: _foo() je private, ale foo() je public) 
-GDScript nepodporuje private a public prvky, tak se budou rozlišovat pomocí "_"
+GDScript nepodporuje private a public prvky, tak se budou rozlišovat pomocí _
 
 Response kódy od serveru jsou jako int v headers
 Server kódy:
