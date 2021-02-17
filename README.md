@@ -1,4 +1,4 @@
-# IBM.CH_Server
+# IBM.CH_Server - dead project
 End Of Transmission (0x04) na konci každý zprávy (musí se kontrolovat, jestli uživatel nezadal do zprávy EOT character) <br>
 Zprávy se posílají v JSON formátu převedený na string v utf-8 bytekódu.<br>
 message example: {"headers": ["type", responses], "data": b'message data'}<br>
